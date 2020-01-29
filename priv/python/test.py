@@ -17,6 +17,7 @@ def register_handler(pid):
     message_handler = pid
 
 def handle_message(count):
+    print("Python time: ")
     print(datetime.now())
 
 set_message_handler(handle_message)

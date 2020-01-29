@@ -5,6 +5,8 @@ from erlport.erlang import set_message_handler, cast
 from erlport.erlterms import Atom
 from datetime import datetime
 
+message_handler = None #reference to the elixir process to send result to
+
 #send message to pid
 def cast_message(pid, message):
     cast(pid, message)
