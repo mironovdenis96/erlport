@@ -2,8 +2,8 @@ defmodule ElixirPython.PythonServer do
     use GenServer
     alias ElixirPython.Python
  
-    def start_link() do 
-       GenServer.start_link(__MODULE__, [])
+    def start_link(handlerName) do 
+      GenServer.start_link(__MODULE__, [], name: :"#{handlerName}")
     end
  
     def init(args) do
@@ -20,17 +20,6 @@ defmodule ElixirPython.PythonServer do
       {:ok, python_session}
     end
  
-    def cast_count(count) do 
-       {:ok, pid} = start_link()
-       #GenServer.cast(pid, {:count, count})
-    end
- 
-    def call_count(count) do
-       {:ok, pid} = start_link()
-       # :infinity timeout only for demo purposes
-       GenServer.call(pid, {:count, count}, :infinity)
-    end
- 
     def handle_call({:count, count}, from, session) do 
        result = Python.call(session, :test, :long_counter, [count])
        {:reply, result, session}
@@ -44,10 +33,11 @@ defmodule ElixirPython.PythonServer do
     def handle_info({:python, message}, session) do 
       IO.puts "Elixir time:"        
       IO.inspect Time.utc_now
-       IO.puts "Received message from python: #{inspect message}"
-       {:noreply, session}
-       #stop elixir process
-       #{:stop, :normal,  session}
+      IO.puts "Received message from python: #{inspect message}"
+      send(:Elixir2, {:handle, "FromElixir1"})
+      {:noreply, session}
+      #stop elixir process
+      #{:stop, :normal,  session}
     end
  
     def terminate(_reason, session) do 

@@ -9,7 +9,8 @@ defmodule Elixirwithpython.Application do
 
   def start(_type, _args) do
     children = [
-      worker(ElixirPython.PythonServer, [])
+      worker(Elixirwithpython, ["Elixir2"]),
+      worker(ElixirPython.PythonServer, ["Elixir1"])
       # Starts a worker by calling: Elixirwithpython.Worker.start_link(arg)
       # {Elixirwithpython.Worker, arg}
     ]

@@ -1,18 +1,18 @@
 defmodule Elixirwithpython do
-  @moduledoc """
-  Documentation for Elixirwithpython.
-  """
+  use GenServer
+  alias ElixirPython.Python
 
-  @doc """
-  Hello world.
+  def start_link(handlerName) do 
+     GenServer.start_link(__MODULE__, [], name: :"#{handlerName}")
+  end
 
-  ## Examples
+  def init(state) do
+    {:ok, state}
+  end
 
-      iex> Elixirwithpython.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def handle_info({:handle, message}, state) do 
+    IO.puts "Elixir time:"        
+    IO.inspect Time.utc_now
+    {:noreply, state}
   end
 end
