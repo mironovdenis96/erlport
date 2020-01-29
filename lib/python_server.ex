@@ -9,7 +9,7 @@ defmodule ElixirPython.PythonServer do
     def init(args) do
       #Создаём сессии
       {:ok, python_session} = :python.start([{:python_path, './priv/python/'}])
-      {:ok, python_session2} = :python.start([{:python_path, './priv/python2/'}])
+      {:ok, python_session2} = :python.start([{:python_path, './priv/python/'}])
       #Регистрируем хендлеры
       Python.call(python_session, :test, :register_handler, [self()])
       Python.call(python_session2, :test2, :register_handler, [self()])
